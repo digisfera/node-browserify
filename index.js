@@ -101,14 +101,15 @@ Browserify.prototype.require = function (file, opts) {
     var basedir = defined(opts.basedir, process.cwd());
     var expose = opts.expose;
     if (file === expose && /^[\.]/.test(expose)) {
-        expose = '/' + path.relative(basedir, expose);
+        expose = './' + path.relative(basedir, expose);
     }
     if (expose === undefined && this._options.exposeAll) {
         expose = true;
     }
     if (expose === true) {
-        expose = '/' + path.relative(basedir, file);
+        expose = './' + path.relative(basedir, file);
     }
+
     
     if (isStream(file)) {
         self._pending ++;
@@ -162,7 +163,7 @@ Browserify.prototype.require = function (file, opts) {
     
     if (row.entry) row.order = self._entryOrder ++;
     if (opts.transform === false) row.transform = false;
-    
+
     this.pipeline.write(row);
     return this;
 };
